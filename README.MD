@@ -5,13 +5,15 @@
 
 <p align="center">
   <h3 align="center">
-    @ntegral/nestjs-sentry
+    @dceldran/nestjs-sentry
   </h3>
 
   <p align="center">
     Provides an injectable sentry.io client to provide enterprise logging nestjs modules
   </p>
 </p>
+
+## This is a fork from https://github.com/ntegral/nestjs-sentry to compatibilice project with reflect-metadata 0.2.2
 
 ## Table Of Contents
 
