@@ -41,7 +41,7 @@ do any extra work outside of the initial setup.
 ## Installation
 
 ```bash
-npm install --save @ntegral/nestjs-sentry @sentry/node
+npm install --save @dceldran/nestjs-sentry @sentry/node
 ```
 
 ## Github Sample Project using @ntegral/nestjs-sentry
