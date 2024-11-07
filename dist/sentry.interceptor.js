@@ -12,7 +12,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.SentryInterceptor = void 0;
 const common_1 = require("@nestjs/common");
 const operators_1 = require("rxjs/operators");
-const node_1 = require("@sentry/node");
 const sentry_service_1 = require("./sentry.service");
 let SentryInterceptor = class SentryInterceptor {
     constructor(options) {
@@ -20,12 +19,12 @@ let SentryInterceptor = class SentryInterceptor {
         this.client = sentry_service_1.SentryService.SentryServiceInstance();
     }
     intercept(context, next) {
-        return next.handle().pipe((0, operators_1.tap)(null, (exception) => {
-            if (this.shouldReport(exception)) {
+        return next.handle().pipe((0, operators_1.tap)({
+            error: (exception) => {
                 this.client.instance().withScope((scope) => {
-                    return this.captureException(context, scope, exception);
+                    return this.captureHttpException(scope, context.switchToHttp(), exception);
                 });
-            }
+            },
         }));
     }
     captureException(context, scope, exception) {
@@ -39,7 +38,7 @@ let SentryInterceptor = class SentryInterceptor {
         }
     }
     captureHttpException(scope, http, exception) {
-        const data = node_1.Handlers.parseRequest({}, http.getRequest(), this.options);
+        const data = http.getRequest();
         scope.setExtra('req', data.request);
         if (data.extra)
             scope.setExtras(data.extra);
